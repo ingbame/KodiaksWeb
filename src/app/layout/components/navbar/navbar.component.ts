@@ -1,46 +1,33 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { ROUTES } from '../../components/sidebar/sidebar.component';
+import { Component, OnInit, ElementRef, OnDestroy } from "@angular/core";
+import { Location } from "@angular/common";
+import { Router } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ROUTES } from "../../models/items-menu";
 
 @Component({
-  selector: 'app-auth-layout',
-  templateUrl: './auth-layout.component.html',
-  styleUrls: ['./auth-layout.component.scss']
+  selector: "app-navbar",
+  templateUrl: "./navbar.component.html",
+  styleUrls: ["./navbar.component.scss"]
 })
-export class AuthLayoutComponent implements OnInit, OnDestroy {
-  public menuItems: any[] = [];
-  test: Date = new Date();
-  closeResult?: string;
-  public sidebarColor: string = "red";
-  public isCollapsed = true;
+export class NavbarComponent implements OnInit, OnDestroy {
+  private listTitles: any[] = [];
+  location: Location;
   mobile_menu_visible: any = 0;
   private toggleButton: any;
-  private sidebarVisible?: boolean;
+  private sidebarVisible: boolean;
 
-  constructor(private router: Router, private modalService: NgbModal) { }
+  public isCollapsed = true;
 
-  changeSidebarColor(color: string){
-    var sidebar = document.getElementsByClassName('sidebar')[0];
-    var mainPanel = document.getElementsByClassName('main-panel')[0];
+  closeResult?: string;
 
-    this.sidebarColor = color;
-
-    if(sidebar != undefined){
-        sidebar.setAttribute('data',color);
-    }
-    if(mainPanel != undefined){
-        mainPanel.setAttribute('data',color);
-    }
-  }
-  changeDashboardColor(color: string){
-    var body = document.getElementsByTagName('body')[0];
-    if (body && color === 'white-content') {
-        body.classList.add(color);
-    }
-    else if(body.classList.contains('white-content')) {
-      body.classList.remove('white-content');
-    }
+  constructor(
+    location: Location,
+    private element: ElementRef,
+    private router: Router,
+    private modalService: NgbModal
+  ) {
+    this.location = location;
+    this.sidebarVisible = false;
   }
   // function that adds color white/transparent to the navbar on resize (this is for the collapse)
    updateColor = () => {
@@ -54,9 +41,9 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
      }
    };
   ngOnInit() {
-    var navbar = document.getElementsByClassName('navbar')[0];
-
     window.addEventListener("resize", this.updateColor);
+    this.listTitles = ROUTES.filter(listTitle => listTitle);
+    const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName("navbar-toggler")[0];
     this.router.events.subscribe(event => {
       this.sidebarClose();
@@ -66,29 +53,8 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
         this.mobile_menu_visible = 0;
       }
     });
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
-    // on this page, we need on the body tag the classes .rtl and .menu-on-right
-    document.body.classList.add("rtl", "menu-on-right");
-    // we also need the rtl bootstrap
-    // so we add it dynamically to the head
-    let head = document.head;
-    let link = document.createElement("link");
-    link.type = "text/css";
-    link.rel = "stylesheet";
-    link.id = "rtl-id";
-    link.href =
-      "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css";
-    head.appendChild(link);
+  }
 
-  }
-  ngOnDestroy() {
-    // when we exit this page, we need to delete the classes .rtl and .menu-on-right
-    // from the body tag
-    document.body.classList.remove("rtl", "menu-on-right");
-    // we also need to delete the rtl bootstrap, so it does not break the other pages
-    // that do not make use of rtl
-    document.getElementById("rtl-id")?.remove();
-  }
   collapse() {
     this.isCollapsed = !this.isCollapsed;
     const navbar = document.getElementsByTagName("nav")[0];
@@ -149,7 +115,9 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
     if (this.mobile_menu_visible == 1) {
       // $('html').removeClass('nav-open');
       html.classList.remove("nav-open");
-      let $layer:any= document.getElementsByClassName("close-layer");
+
+      let $layer: any = document.getElementsByClassName("close-layer")[0];
+
       if ($layer) {
         $layer.remove();
       }
@@ -193,7 +161,22 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
       this.mobile_menu_visible = 1;
     }
   }
-  open(content: any) {
+
+  getTitle() {
+    var titlee = this.location.prepareExternalUrl(this.location.path());
+    if (titlee.charAt(0) === "#") {
+      titlee = titlee.slice(1);
+    }
+
+    for (var item = 0; item < this.listTitles.length; item++) {
+      if (this.listTitles[item].path === titlee) {
+        return this.listTitles[item].title;
+      }
+    }
+    return "Dashboard";
+  }
+
+  open(content:any) {
     this.modalService.open(content, {windowClass: 'modal-search'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -209,5 +192,8 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
     } else {
       return  `with: ${reason}`;
     }
+  }
+  ngOnDestroy(){
+     window.removeEventListener("resize", this.updateColor);
   }
 }
