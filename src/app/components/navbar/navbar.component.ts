@@ -116,7 +116,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       // $('html').removeClass('nav-open');
       html.classList.remove("nav-open");
 
-      let $layer: any = document.getElementsByClassName("close-layer");
+      let $layer: any = document.getElementsByClassName("close-layer")[0];
 
       if ($layer) {
         $layer.remove();

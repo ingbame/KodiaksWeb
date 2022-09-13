@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { Chart } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 @Component({
   selector: "app-dashboard",
@@ -132,7 +133,7 @@ export class DashboardComponent implements OnInit {
       },
       responsive: true,
       scales: {
-        yAxes: [{
+        yAxes: {
           barPercentage: 1.6,
           gridLines: {
             drawBorder: false,
@@ -145,9 +146,9 @@ export class DashboardComponent implements OnInit {
             padding: 20,
             fontColor: "#9a9a9a"
           }
-        }],
+        },
 
-        xAxes: [{
+        xAxes: {
           barPercentage: 1.6,
           gridLines: {
             drawBorder: false,
@@ -158,7 +159,7 @@ export class DashboardComponent implements OnInit {
             padding: 20,
             fontColor: "#9a9a9a"
           }
-        }]
+        }
       }
     };
 
@@ -228,7 +229,7 @@ export class DashboardComponent implements OnInit {
       },
       responsive: true,
       scales: {
-        yAxes: [{
+        yAxes: {
           barPercentage: 1.6,
           gridLines: {
             drawBorder: false,
@@ -241,9 +242,9 @@ export class DashboardComponent implements OnInit {
             padding: 20,
             fontColor: "#9e9e9e"
           }
-        }],
+        },
 
-        xAxes: [{
+        xAxes: {
           barPercentage: 1.6,
           gridLines: {
             drawBorder: false,
@@ -254,7 +255,7 @@ export class DashboardComponent implements OnInit {
             padding: 20,
             fontColor: "#9e9e9e"
           }
-        }]
+        }
       }
     };
 
@@ -277,7 +278,7 @@ export class DashboardComponent implements OnInit {
       },
       responsive: true,
       scales: {
-        yAxes: [{
+        yAxes: {
 
           gridLines: {
             drawBorder: false,
@@ -290,9 +291,9 @@ export class DashboardComponent implements OnInit {
             padding: 20,
             fontColor: "#9e9e9e"
           }
-        }],
+        },
 
-        xAxes: [{
+        xAxes: {
 
           gridLines: {
             drawBorder: false,
@@ -303,7 +304,7 @@ export class DashboardComponent implements OnInit {
             padding: 20,
             fontColor: "#9e9e9e"
           }
-        }]
+        }
       }
     };
 
@@ -337,7 +338,7 @@ export class DashboardComponent implements OnInit {
       }]
     };
 
-    var myChart = new Chart(this.ctx, {
+    myChart = new Chart(this.ctx, {
       type: 'line',
       data: data,
       options: gradientChartOptionsConfigurationWithTooltipRed
