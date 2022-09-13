@@ -3,12 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { DashboardComponent } from '../pages/dashboard/dashboard.component';
-import { IconsComponent } from '../pages/icons/icons.component';
-import { NotificationsComponent } from '../pages/notifications/notifications.component';
-import { TablesComponent } from '../pages/tables/tables.component';
-import { TypographyComponent } from '../pages/typography/typography.component';
-import { UserComponent } from '../pages/user/user.component';
 import { LayoutComponent } from './pages/layout.component';
 import { RouterModule } from '@angular/router';
 import { LayoutRoutes } from './routes/layout.routing';
@@ -24,13 +18,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SidebarComponent,
     FooterComponent,
     LayoutComponent,
-
-    DashboardComponent,
-    UserComponent,
-    TablesComponent,
-    IconsComponent,
-    TypographyComponent,
-    NotificationsComponent
   ],
   imports: [
     CommonModule,

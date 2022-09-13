@@ -7,27 +7,27 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
   {
-    path: "/dashboard",
+    path: "/examples/dashboard",
     title: "Dashboard",
     rtlTitle: "لوحة القيادة",
     icon: "icon-chart-pie-36",
     class: ""
   },
   {
-    path: "/icons",
+    path: "/examples/icons",
     title: "Icons",
     rtlTitle: "الرموز",
     icon: "icon-atom",
     class: ""
   },
   {
-    path: "/maps",
+    path: "/examples/maps",
     title: "Maps",
     rtlTitle: "خرائط",
     icon: "icon-pin",
     class: "" },
   {
-    path: "/notifications",
+    path: "/examples/notifications",
     title: "Notifications",
     rtlTitle: "إخطارات",
     icon: "icon-bell-55",
@@ -35,28 +35,28 @@ export const ROUTES: RouteInfo[] = [
   },
 
   {
-    path: "/user",
+    path: "/examples/user",
     title: "User Profile",
     rtlTitle: "ملف تعريفي للمستخدم",
     icon: "icon-single-02",
     class: ""
   },
   {
-    path: "/tables",
+    path: "/examples/tables",
     title: "Table List",
     rtlTitle: "قائمة الجدول",
     icon: "icon-puzzle-10",
     class: ""
   },
   {
-    path: "/typography",
+    path: "/examples/typography",
     title: "Typography",
     rtlTitle: "طباعة",
     icon: "icon-align-center",
     class: ""
   },
   {
-    path: "/rtl",
+    path: "/examples/rtl",
     title: "RTL Support",
     rtlTitle: "ار تي ال",
     icon: "icon-world",

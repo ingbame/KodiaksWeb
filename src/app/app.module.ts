@@ -10,6 +10,7 @@ import { AppComponent } from "./app.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppRoutingModule } from "./app-routing.module";
+import { AuthModule } from "./auth/auth.module";
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { AppRoutingModule } from "./app-routing.module";
     NgbModule,
     RouterModule,
     AppRoutingModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    AuthModule
   ],
   declarations: [AppComponent],
   providers: [],

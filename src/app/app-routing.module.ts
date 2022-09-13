@@ -4,6 +4,8 @@ import { BrowserModule } from "@angular/platform-browser";
 import { Routes, RouterModule } from "@angular/router";
 
 import { LayoutComponent } from "./layout/pages/layout.component";
+import { LoginComponent } from "./auth/pages/login.component";
+import { AuthGuard } from "./shared/guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -12,18 +14,22 @@ const routes: Routes = [
     pathMatch: "full"
   },
   {
+    path: "login",
+    component: LoginComponent
+  },
+  {
     path: "",
     component: LayoutComponent,
     children: [
       {
-        path: "",
+        path: "", canActivate: [AuthGuard],
         loadChildren: () => import ("./layout/layout.module").then(m => m.LayoutModule)
       }
     ]
   },
   {
     path: "**",
-    redirectTo: "dashboard"
+    redirectTo: "login"
   }
 ];
 
@@ -31,9 +37,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     BrowserModule,
-    RouterModule.forRoot(routes, {
-      useHash: true
-    })
+    RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
 })
