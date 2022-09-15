@@ -80,7 +80,7 @@
             </li>
             <li class=" dropdown-divider"></li>
             <li class=" nav-link">
-              <a class=" nav-item" href="javascript:void(0)" ngbDropdownItem>
+              <a class=" nav-item" href="javascript:void(0)" (click)="logout()" ngbDropdownItem>
                 Log out
               </a>
             </li>
@@ -94,7 +94,7 @@
 
 <ng-template #content let-modal>
   <div class=" modal-header">
-    <input class=" form-control" id="inlineFormInputGroup" placeholder="SEARCH" type="text" />
+    <input class=" form-control" id="inlineFormInputGroup" placeholder="SEARCH Prueba" type="text" />
 
     <button aria-label="Close" class=" close" data-dismiss="modal" type="button" (click)="modal.dismiss('Cross click')">
       <i class=" tim-icons icon-simple-remove"> </i>

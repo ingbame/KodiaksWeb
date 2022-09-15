@@ -4,8 +4,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { Routes, RouterModule } from "@angular/router";
 
 import { LayoutComponent } from "./layout/pages/layout.component";
-import { LoginComponent } from "./auth/pages/login.component";
-import { AuthGuard } from "./auth/guards/auth.guard";
+import { AuthGuard } from "./shared/guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -15,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: "login",
-    component: LoginComponent
+    loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
   },
   {
     path: "",
@@ -23,7 +22,7 @@ const routes: Routes = [
     children: [
       {
         path: "", canActivate: [AuthGuard],
-        loadChildren: () => import ("./layout/layout.module").then(m => m.LayoutModule)
+        loadChildren: () => import("./layout/layout.module").then(m => m.LayoutModule)
       }
     ]
   },
@@ -41,4 +40,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

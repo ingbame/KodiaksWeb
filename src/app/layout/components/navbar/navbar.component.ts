@@ -173,7 +173,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         return this.listTitles[item].title;
       }
     }
-    return "Dashboard";
+    return "KodiaksWeb";
   }
 
   open(content:any) {
@@ -195,5 +195,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(){
      window.removeEventListener("resize", this.updateColor);
+  }
+  logout(): void {
+    this.router.navigate(['login', {}]);
+    sessionStorage.removeItem('authUser');
   }
 }

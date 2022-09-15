@@ -31,18 +31,20 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.logUsr.userName, this.logUsr.password)
       .subscribe(
         {
-          next: (res: any) => {
-            console.log('res', res);
+          next: (res) => {
+            console.log(res);
+            sessionStorage.setItem('authUser', JSON.stringify(res));
+
             if (!this.urlRedirect) {
               this.router.navigateByUrl('');
             } else {
               this.router.navigateByUrl(this.urlRedirect);
             }
 
-          },
-          error: (err: any) => console.error(err),
-          complete: () => { }
 
+          },
+          error: (err) => { },
+          complete: () => { }
         });
   }
 
