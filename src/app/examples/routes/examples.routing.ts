@@ -10,6 +10,7 @@ import { TypographyComponent } from "../pages/typography/typography.component";
 import { UserComponent } from "../pages/user/user.component";
 
 export const ExamplesRoutes: Routes = [
+  { path: "**", redirectTo: "dashboard"},
   { path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard] },
   { path: "icons", component: IconsComponent, canActivate: [AuthGuard] },
   { path: "maps", component: MapComponent, canActivate: [AuthGuard]  },

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
+import jwt_decode from "jwt-decode";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,23 +15,27 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    console.log('AuthGuard - canActivate');
-
-    console.log('route.url', route.url);
-    console.log('state.url', state.url);
-
     if (sessionStorage.getItem('authUser') && sessionStorage.getItem('authUser') != '') {
-      return true;
-    } else {
-      if (state.url == '' || state.url == '/') {
-        this.router.navigate(['login']);
-      } else {
-        this.router.navigate(['login', { url: state.url }]);
+      let authUser = JSON.parse(sessionStorage.getItem('authUser')!!);
+      let decoded: any = jwt_decode(authUser.token);
+      const expireDate = (decoded.exp * 1000);
+      if (expireDate < Date.now()){
+        sessionStorage.removeItem('authUser');
+        this.ExcecuteNavigate(state.url);
+        return false;
       }
-
-    }
+      return true;
+    } else
+      this.ExcecuteNavigate(state.url);
 
     return false;
   }
 
+  ExcecuteNavigate(url: string): void {
+    if (url == '' || url == '/') {
+      this.router.navigate(['login']);
+    } else {
+      this.router.navigate(['login', { url: url }]);
+    }
+  }
 }
