@@ -40,10 +40,12 @@ export class SidebarComponent implements OnInit {
         next: (res) => {
           console.log('next', res);
           res.forEach((item: any) => {
-            let itemVal: any = ROUTES.filter(menuItem => menuItem.title == item.title)[0];
-            if (itemVal != undefined)
+            let itemVal: any = ROUTES.filter(menuItem => menuItem.itemKey == item.itemKey)[0];
+            if (itemVal != undefined){
+              itemVal.icon = item.iconSource;
               this.menuItems.push(itemVal)
-            console.log('item.title',item.title);
+            }
+            console.log('item.title',item.itemKey);
             console.log('itemVal',itemVal);
           });
         },

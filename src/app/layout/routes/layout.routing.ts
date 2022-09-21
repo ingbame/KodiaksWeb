@@ -10,6 +10,14 @@ export const LayoutRoutes: Routes = [
     loadChildren: () => import("../../application/application.module").then(m => m.ApplicationModule)
   },
   {
+    path: "finance",
+    loadChildren: () => import("../../finance/finance.module").then(m => m.FinanceModule)
+  },
+  {
+    path: "stats",
+    loadChildren: () => import("../../stats/stats.module").then(m => m.StatsModule)
+  },
+  {
     path: "examples",
     loadChildren: () => import("../../examples/examples.module").then(m => m.ExamplesModule)
   }
