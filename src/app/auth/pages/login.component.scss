@@ -1,2 +1,14 @@
 @import '../../../assets/scss/auth/util.scss';
 @import '../../../assets/scss/auth/main.scss';
+.KodiaksTitle{
+  padding-bottom: 0;
+}
+.Kodiaks-logo {
+  width: 100%;
+  text-align: center;
+
+  img {
+    width: 300px;
+    height: auto;
+  }
+}

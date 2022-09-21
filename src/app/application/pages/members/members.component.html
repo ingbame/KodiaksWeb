@@ -1,3 +1,72 @@
-<div class=" content">
-  <p>members works!</p>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <label for="dateOfBirth">Date of birth</label>
+        <div class="input-group">
+          Prueba
+          <!-- <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button> -->
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>
+
+<div class=" row">
+  <div class=" col-md-12">
+    <div class=" card">
+      <div class=" card-header">
+        <div class="row">
+          <div class="col col-mb-10">
+            <h1 class=" card-title">Miembros del equipo</h1>
+          </div>
+          <div class="col col-mb-2 text-right">
+            <input class="btn btn-primary" type="button" value="Agregar" (click)="OpenAddMemberModel(content)">
+          </div>
+        </div>
+      </div>
+      <div class=" card-body">
+        <div class=" table-responsive">
+          <table class=" table tablesorter" id="">
+            <thead class=" text-primary">
+              <tr>
+                <th>Id</th>
+                <th>Nombre </th>
+                <th>Apodo</th>
+                <th>N°</th>
+                <th>B/T</th>
+                <th>Cumpleaños</th>
+                <th>Correo</th>
+                <th>Celular</th>
+                <th class=" text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let member of lstMembers">
+                <td>{{member.memberId}}</td>
+                <td>{{member.fullName}}</td>
+                <td>{{member.nickName}}</td>
+                <td>{{member.shirtNumber}}</td>
+                <td>{{member.btSideDesc}}</td>
+                <td>{{member.birthday}}</td>
+                <td>{{member.email}}</td>
+                <td>{{member.cellPhoneNumber}}</td>
+                <td class=" text-center">
+                  <input class="btn btn-warning" type="button" value="Editar" (click)="onEditMember(member)">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

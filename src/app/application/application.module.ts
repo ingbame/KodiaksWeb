@@ -5,6 +5,7 @@ import { RolesComponent } from './pages/roles/roles.component';
 import { RouterModule } from '@angular/router';
 import { ApplicationRoutes } from './routes/application.routing';
 import { MenuComponent } from './pages/menu/menu.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -12,7 +13,9 @@ import { MenuComponent } from './pages/menu/menu.component';
   declarations: [MembersComponent,RolesComponent, MenuComponent],
   imports: [
     CommonModule,
+    NgbModule,
     RouterModule.forChild(ApplicationRoutes)
-  ]
+  ],
+  bootstrap:[MembersComponent]
 })
 export class ApplicationModule { }

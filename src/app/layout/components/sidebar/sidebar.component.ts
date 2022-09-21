@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit {
   constructor(private layoutService: LayoutService, private router: Router, private activedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    //this.menuItems = ROUTES.filter(menuItem => menuItem);
     if (sessionStorage.getItem('authUser') && sessionStorage.getItem('authUser') != '') {
       let authUser = JSON.parse(sessionStorage.getItem('authUser')!!);
       let decoded: any = jwt_decode(authUser.token);
