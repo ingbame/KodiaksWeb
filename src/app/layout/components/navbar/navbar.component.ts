@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   public isCollapsed = true;
 
-  closeResult?: string;
+  closeResult: string = '';
 
   constructor(
     location: Location,
