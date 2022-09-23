@@ -2,10 +2,11 @@ export class MemberEntity {
   memberId?: number;
   userId?: number;
   roleId?: number;
+  roleDesc?: string;
   fullName?: string;
   nickName?: string;
   shirtNumber?: number;
-  btSideId?: number;
+  bTSideId?: number;
   btSideDesc?: string;
   photoUrl?: string;
   birthday?: Date;
@@ -14,4 +15,5 @@ export class MemberEntity {
   canEdit?: boolean;
   isVerified?: boolean;
   isActive?: boolean;
+  createdDate?: Date;
 }

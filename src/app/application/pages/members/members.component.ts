@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MemberEntity } from '../../models/member';
 
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { MemberService } from '../../services/member.service';
 
 @Component({
   selector: 'app-members',
@@ -12,45 +13,53 @@ export class MembersComponent implements OnInit {
   modalReference?: NgbModalRef;
   closeResult = '';
   lstMembers: MemberEntity[] = [];
-  constructor(private modalService: NgbModal) { }
+  actionStr: string = "";
+  MemberModel: any = {};
+  constructor(private modalService: NgbModal, private memberService: MemberService) { }
 
   ngOnInit(): void {
-    for (let index = 0; index < 15; index++) {
-      this.lstMembers?.push({
-        memberId: index + 1,
-        userId: 1,
-        roleId: 1,
-        fullName: "Baruch Iván Medina Ramos",
-        nickName: "Baruch",
-        shirtNumber: 26,
-        btSideId: 1,
-        btSideDesc: "R/R",
-        cellPhoneNumber: "8116836441",
-        canEdit: false,
-        isVerified: false,
-        isActive: false
-      });
+    this.memberService.GetMember().subscribe({
+      next: (res) => {
+        console.log('next', res);
+        res.forEach((item: any) => {
+          this.lstMembers.push(item);
+        });
+      },
+      error: (err) => { console.log('error', err); },
+      complete: () => { }
 
-    }
-  }
-  OpenAddMemberModel(content: any): void{
-    this.modalReference = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
-    this.modalReference.result.then((result) => {
-      console.log('modal reason', result);
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      console.log('modal reason', reason);
-      console.log('modal reason2', this.getDismissReason(reason));
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+
+    // for (let index = 0; index < 15; index++) {
+    //   this.lstMembers?.push({
+    //     memberId: index + 1,
+    //     userId: 1,
+    //     roleId: 1,
+    //     fullName: "Baruch Iván Medina Ramos",
+    //     nickName: "Baruch",
+    //     shirtNumber: 26,
+    //     bTSideId: 1,
+    //     bTSideDesc: "R/R",
+    //     cellPhoneNumber: "8116836441",
+    //     canEdit: false,
+    //     isVerified: false,
+    //     isActive: false
+    //   });
+    //}
+  }
+  OpenAddMemberModel(): void{
+    this.actionStr = "Agregar";
   }
   onAddMember(): void {
     console.log("pendiente agregar");
   }
   onEditMember(member: MemberEntity): void {
-    let index = this.lstMembers.findIndex(f => f.memberId == member.memberId);
-    if (index != undefined)
-      this.lstMembers.splice(index, 1);
+    this.actionStr = "Editar";
+    console.log('mienbo a editar', member)
+    this.MemberModel = member;
+    // let index = this.lstMembers.findIndex(f => f.memberId == member.memberId);
+    // if (index != undefined)
+    //   this.lstMembers.splice(index, 1);
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

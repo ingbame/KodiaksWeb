@@ -1,0 +1,96 @@
+<!-- Modal -->
+<div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="memberModalLabel">{{actionStr}} miembro</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="onSubmitMemberModal()" #form="ngForm" class="row g-3">
+          <input type="hidden" name="userId" value="">
+          <input type="hidden" name="roleId" value="">
+          <input type="hidden" name="bTSideId" value="">
+          <input type="hidden" name="photoUrl" value="">
+
+          <div class="col-md-6">
+            <label for="memberId" class="form-label">ID</label>
+            <input type="text" class="form-control" id="memberId" disabled >
+          </div>
+          <div class="col-md-6">
+            <label for="roleDesc" class="form-label">Role</label>
+            <input type="text" class="form-control" id="roleDesc" disabled value="Prueba Rol">
+          </div>
+          <div class="col-md-12">
+            <label for="fullName" class="form-label">Nombre completo</label>
+            <input type="text" class="form-control" id="fullName">
+          </div>
+          <div class="col-md-6">
+            <label for="nickName" class="form-label">Apodo</label>
+            <input type="text" class="form-control" id="nickName">
+          </div>
+          <div class="col-2">
+            <label for="shirtNumber" class="form-label">N°</label>
+            <input type="text" class="form-control" id="shirtNumber">
+          </div>
+          <div class="col-4">
+            <label for="birthday" class="form-label">Cumpleaños</label>
+            <input type="date" class="form-control" id="birthday">
+          </div>
+          <div class="col-md-6">
+            <label for="cellPhoneNumber" class="form-label">Celular</label>
+            <input type="text" class="form-control" id="cellPhoneNumber">
+          </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label">Correo</label>
+            <input type="email" class="form-control" id="email">
+          </div>
+          <div class="col-md-6">
+            <label for="bTSideDesc" class="form-label">Bateo/Lanzamiento</label>
+            <select id="bTSideDesc" class="form-select">
+              <option selected>Right/Right</option>
+              <option selected>Left/Left</option>
+              <option selected>Right/Left</option>
+              <option>...</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="createdDate" class="form-label">Fecha de creación</label>
+            <input type="datetime" class="form-control" id="createdDate" disabled>
+          </div>
+          <div class="col-4">
+            <div class="custom-checkbox-form">
+              <input type="checkbox" value="" id="canEdit">
+              <label class="custom-checkbox-label" for="canEdit">
+                Puede editar
+              </label>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="custom-checkbox-form">
+              <input type="checkbox" value="" id="isVerified" disabled>
+              <label class="custom-checkbox-label" for="isVerified">
+                Verificado
+              </label>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="custom-checkbox-form">
+              <input type="checkbox" value="" id="isActive">
+              <label class="custom-checkbox-label" for="isActive">
+                Activo
+              </label>
+            </div>
+          </div>
+          <!-- <div class="col-12">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+          </div> -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">{{actionStr}}</button>
+      </div>
+    </div>
+  </div>
+</div>

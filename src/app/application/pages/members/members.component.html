@@ -1,21 +1,4 @@
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+<app-member-modal [actionStr]="actionStr" [MemberModel]="MemberModel"></app-member-modal>
 
 <div class=" row">
   <div class=" col-md-12">
@@ -26,10 +9,8 @@
             <h1 class=" card-title">Miembros del equipo</h1>
           </div>
           <div class="col col-mb-2 text-right">
-            <!-- <input class="btn btn-primary" type="button" value="Agregar" (click)="OpenAddMemberModel(content)"> -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              Launch demo modal
-            </button>
+            <input class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberModal" type="button"
+              value="Agregar" (click)="OpenAddMemberModel()">
           </div>
         </div>
       </div>
@@ -56,11 +37,12 @@
                 <td>{{member.nickName}}</td>
                 <td>{{member.shirtNumber}}</td>
                 <td>{{member.btSideDesc}}</td>
-                <td>{{member.birthday}}</td>
+                <td>{{member.birthday != null? member.birthday : null}}</td>
                 <td>{{member.email}}</td>
                 <td>{{member.cellPhoneNumber}}</td>
                 <td class=" text-center">
-                  <input class="btn btn-warning" type="button" value="Editar" (click)="onEditMember(member)">
+                  <input class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#memberModal" type="button"
+                    value="Editar" (click)="onEditMember(member)">
                 </td>
               </tr>
             </tbody>
