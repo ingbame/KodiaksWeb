@@ -18,15 +18,5 @@ export class AuthService {
     this.pass = password ?? "";
 
     return this.httpCliente.post<any>(url, {});
-
-    // let headers_object = new HttpHeaders();
-    // headers_object.append('Content-Type', 'application/json');
-    // headers_object.append("Authorization", "Basic " + window.btoa(userName + ":" + password));
-    // console.log(headers_object);
-    // let httpOptions = {
-    //   headers: headers_object
-    // };
-    // console.log(httpOptions);
-    // return this.httpCliente.post<any>(url, {},httpOptions);
   }
 }

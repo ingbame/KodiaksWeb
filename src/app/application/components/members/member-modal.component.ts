@@ -19,7 +19,6 @@ export class MemberModalComponent implements OnInit {
   ngOnInit(): void {
     this.statsService.GetBattingThrowingSides().subscribe({
       next: (res) => {
-        console.log('res',res);
         if (!res.error)
           this.lstBattingThrowingSides = res.model;
       },
@@ -30,8 +29,5 @@ export class MemberModalComponent implements OnInit {
   }
   onSubmitMemberModal(): void {
     console.log(this.MemberModel);
-  }
-  valorCambio(value: any) {
-    console.log("nuevo valor:" + value)
   }
 }

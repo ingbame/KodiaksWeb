@@ -32,8 +32,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         {
           next: (res) => {
-            console.log(res);
-            sessionStorage.setItem('authUser', JSON.stringify(res));
+            localStorage.setItem('authUser', JSON.stringify(res));
 
             if (!this.urlRedirect) {
               this.router.navigateByUrl('');

@@ -15,12 +15,12 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if (sessionStorage.getItem('authUser') && sessionStorage.getItem('authUser') != '') {
-      let authUser = JSON.parse(sessionStorage.getItem('authUser')!!);
+    if (localStorage.getItem('authUser') && localStorage.getItem('authUser') != '') {
+      let authUser = JSON.parse(localStorage.getItem('authUser')!!);
       let decoded: any = jwt_decode(authUser.token);
       const expireDate = (decoded.exp * 1000);
       if (expireDate < Date.now()){
-        sessionStorage.removeItem('authUser');
+        localStorage.removeItem('authUser');
         this.ExcecuteNavigate(state.url);
         return false;
       }

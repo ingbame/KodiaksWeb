@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵisListLikeIterable } from '@angular/core';
 import { MemberEntity } from '../../models/member';
 
 import { MemberService } from '../../services/member.service';
@@ -18,23 +18,20 @@ export class MembersComponent implements OnInit {
   ngOnInit(): void {
     this.memberService.GetMember().subscribe({
       next: (res) => {
-        this.lstMembers = res;
+        if (res.length > 0)
+          this.lstMembers = res;
       },
       error: (err) => { console.log('error', err); },
       complete: () => { }
 
     });
   }
-  OpenAddMemberModel(): void{
+  OpenAddMemberModel(): void {
     this.actionStr = "Agregar";
     this.MemberModel = new MemberEntity();
   }
   onEditMember(member: MemberEntity): void {
     this.actionStr = "Editar";
-    console.log('mienbo a editar', member)
     this.MemberModel = JSON.parse(JSON.stringify(member));
-    // let index = this.lstMembers.findIndex(f => f.memberId == member.memberId);
-    // if (index != undefined)
-    //   this.lstMembers.splice(index, 1);
   }
 }
