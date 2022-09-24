@@ -1,4 +1,5 @@
 import { Component, OnInit, ɵisListLikeIterable } from '@angular/core';
+import { MemberActionEnum } from 'src/app/shared/enums/member-action-enum';
 import { MemberEntity } from '../../models/member';
 
 import { MemberService } from '../../services/member.service';
@@ -9,7 +10,7 @@ import { MemberService } from '../../services/member.service';
   styleUrls: ['./members.component.scss']
 })
 export class MembersComponent implements OnInit {
-  actionStr: string = "";
+  actionStr?: MemberActionEnum;
   lstMembers: MemberEntity[] = [];
   MemberModel: MemberEntity = new MemberEntity();
 
@@ -27,11 +28,11 @@ export class MembersComponent implements OnInit {
     });
   }
   OpenAddMemberModel(): void {
-    this.actionStr = "Agregar";
+    this.actionStr = MemberActionEnum.add;
     this.MemberModel = new MemberEntity();
   }
   onEditMember(member: MemberEntity): void {
-    this.actionStr = "Editar";
+    this.actionStr = MemberActionEnum.edit;
     this.MemberModel = JSON.parse(JSON.stringify(member));
   }
 }

@@ -9,8 +9,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MemberModalComponent } from './components/members/member-modal.component';
 import { FormsModule } from '@angular/forms';
 
-
-
 @NgModule({
   declarations: [MembersComponent,RolesComponent, MenuComponent,  MemberModalComponent],
   imports: [
