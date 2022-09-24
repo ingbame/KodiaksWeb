@@ -6,7 +6,7 @@ export class MemberEntity {
   fullName?: string;
   nickName?: string;
   shirtNumber?: number;
-  bTSideId?: number;
+  btSideId?: number;
   btSideDesc?: string;
   photoUrl?: string;
   birthday?: Date;

@@ -37,7 +37,7 @@
                 <td>{{member.nickName}}</td>
                 <td>{{member.shirtNumber}}</td>
                 <td>{{member.btSideDesc}}</td>
-                <td>{{member.birthday != null? member.birthday : null}}</td>
+                <td>{{member.birthday | date:'dd/MM/yyyy'}}</td>
                 <td>{{member.email}}</td>
                 <td>{{member.cellPhoneNumber}}</td>
                 <td class=" text-center">

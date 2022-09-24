@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title" id="memberModalLabel">{{actionStr}} miembro</h1>
@@ -8,88 +8,83 @@
       </div>
       <div class="modal-body">
         <form (ngSubmit)="onSubmitMemberModal()" #form="ngForm" class="row g-3">
-          <input type="hidden" name="userId" value="">
-          <input type="hidden" name="roleId" value="">
-          <input type="hidden" name="bTSideId" value="">
-          <input type="hidden" name="photoUrl" value="">
+          <input type="hidden" name="hfUserId" [(ngModel)]="MemberModel.userId">
+          <input type="hidden" name="hfRoleId" [(ngModel)]="MemberModel.roleId">
+          <input type="hidden" name="hfBTSideId" [(ngModel)]="MemberModel.btSideId">
+          <input type="hidden" name="hfPhotoUrl" [(ngModel)]="MemberModel.photoUrl">
 
           <div class="col-md-6">
-            <label for="memberId" class="form-label">ID</label>
-            <input type="text" class="form-control" id="memberId" disabled >
+            <label for="txtMemberId" class="form-label">ID</label>
+            <input type="text" class="form-control" name="txtMemberId" disabled [(ngModel)]="MemberModel.memberId">
           </div>
           <div class="col-md-6">
-            <label for="roleDesc" class="form-label">Role</label>
-            <input type="text" class="form-control" id="roleDesc" disabled value="Prueba Rol">
+            <label for="txtRoleDesc" class="form-label">Role</label>
+            <input type="text" class="form-control" name="txtRoleDesc" disabled [(ngModel)]="MemberModel.roleDesc">
           </div>
           <div class="col-md-12">
-            <label for="fullName" class="form-label">Nombre completo</label>
-            <input type="text" class="form-control" id="fullName">
+            <label for="txtFullName" class="form-label">Nombre completo</label>
+            <input type="text" class="form-control" name="txtFullName" [(ngModel)]="MemberModel.fullName">
           </div>
           <div class="col-md-6">
-            <label for="nickName" class="form-label">Apodo</label>
-            <input type="text" class="form-control" id="nickName">
+            <label for="txtNickName" class="form-label">Apodo</label>
+            <input type="text" class="form-control" name="txtNickName" [(ngModel)]="MemberModel.nickName">
           </div>
           <div class="col-2">
-            <label for="shirtNumber" class="form-label">N°</label>
-            <input type="text" class="form-control" id="shirtNumber">
+            <label for="txtShirtNumber" class="form-label">N°</label>
+            <input type="text" class="form-control" name="txtShirtNumber" [(ngModel)]="MemberModel.shirtNumber">
           </div>
           <div class="col-4">
-            <label for="birthday" class="form-label">Cumpleaños</label>
-            <input type="date" class="form-control" id="birthday">
+            <label for="txtBirthday" class="form-label">Cumpleaños</label>
+            <input type="date" class="form-control" id="txtBirthday" name="txtBirthday" [ngModel]="MemberModel.birthday | date:'yyyy-MM-dd'" #myBirthday [value]="MemberModel.birthday | date:'yyyy-MM-dd'">
           </div>
           <div class="col-md-6">
-            <label for="cellPhoneNumber" class="form-label">Celular</label>
-            <input type="text" class="form-control" id="cellPhoneNumber">
+            <label for="txtCellPhoneNumber" class="form-label">Celular</label>
+            <input type="text" class="form-control" name="txtCellPhoneNumber" [(ngModel)]="MemberModel.cellPhoneNumber">
           </div>
           <div class="col-md-6">
-            <label for="email" class="form-label">Correo</label>
-            <input type="email" class="form-control" id="email">
+            <label for="txtEmail" class="form-label">Correo</label>
+            <input type="email" class="form-control" name="txtEmail" [(ngModel)]="MemberModel.email">
           </div>
           <div class="col-md-6">
             <label for="bTSideDesc" class="form-label">Bateo/Lanzamiento</label>
-            <select id="bTSideDesc" class="form-select">
-              <option selected>Right/Right</option>
-              <option selected>Left/Left</option>
-              <option selected>Right/Left</option>
-              <option>...</option>
+            <select name="bTSideDesc" class="form-select" [(ngModel)]="MemberModel.btSideDesc">
+              <option selected>Seleccione</option>
+              <option *ngFor="let item of lstBattingThrowingSides" [attr.data-id]="item.btsideId" [attr.data-key-val]="item.keyValue">{{item.btsideDesc}}</option>
             </select>
           </div>
           <div class="col-md-6">
-            <label for="createdDate" class="form-label">Fecha de creación</label>
-            <input type="datetime" class="form-control" id="createdDate" disabled>
+            <label for="dtCreatedDate" class="form-label">Fecha de creación</label>
+            <input type="datetime" class="form-control" name="dtCreatedDate" disabled
+              [ngModel]="MemberModel.createdDate | date:'dd/MM/yyyy HH:mm:ss'" [value]="MemberModel.createdDate | date:'dd/MM/yyyy HH:mm:ss'">
           </div>
           <div class="col-4">
             <div class="custom-checkbox-form">
-              <input type="checkbox" value="" id="canEdit">
-              <label class="custom-checkbox-label" for="canEdit">
+              <input type="checkbox" value="" name="cbxCanEdit" [(ngModel)]="MemberModel.canEdit">
+              <label class="custom-checkbox-label" for="cbxCanEdit">
                 Puede editar
               </label>
             </div>
           </div>
           <div class="col-4">
             <div class="custom-checkbox-form">
-              <input type="checkbox" value="" id="isVerified" disabled>
-              <label class="custom-checkbox-label" for="isVerified">
+              <input type="checkbox" value="" name="cbxIsVerified" disabled [(ngModel)]="MemberModel.isVerified">
+              <label class="custom-checkbox-label" for="cbxIsVerified">
                 Verificado
               </label>
             </div>
           </div>
           <div class="col-4">
             <div class="custom-checkbox-form">
-              <input type="checkbox" value="" id="isActive">
-              <label class="custom-checkbox-label" for="isActive">
+              <input type="checkbox" value="" name="cbxIsActive" [(ngModel)]="MemberModel.isActive">
+              <label class="custom-checkbox-label" for="cbxIsActive">
                 Activo
               </label>
             </div>
           </div>
-          <!-- <div class="col-12">
-            <button type="submit" class="btn btn-primary">Sign in</button>
-          </div> -->
+          <div class="col-12 text-right">
+            <button type="submit" class="btn btn-primary">{{actionStr}}</button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">{{actionStr}}</button>
       </div>
     </div>
   </div>
