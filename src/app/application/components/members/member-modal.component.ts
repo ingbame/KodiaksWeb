@@ -1,11 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { MemberActionEnum } from 'src/app/shared/enums/member-action-enum';
 import { NotificationEnum } from 'src/app/shared/enums/notification-enum';
+
 import { NotificationUtility } from 'src/app/shared/utilities/notification';
+
 import { BattingThrowingSidesEntity } from 'src/app/stats/models/batting-throwing-sides-entity';
-import { StatsService } from 'src/app/stats/services/stats.service';
 import { MemberEntity } from '../../models/member';
+import { RolesEntity } from '../../models/roles';
+
+import { StatsService } from 'src/app/stats/services/stats.service';
 import { MemberService } from '../../services/member.service';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'app-member-modal',
@@ -13,14 +19,88 @@ import { MemberService } from '../../services/member.service';
   styleUrls: ['./member-modal.component.scss']
 })
 export class MemberModalComponent implements OnInit {
-  @Input() actionStr?: MemberActionEnum;
-  // makes the OrderStatus enum available in the template
   MemberActionEnum = MemberActionEnum;
   lstBattingThrowingSides: BattingThrowingSidesEntity[] = [];
+  lstRoles: RolesEntity[] = [];
+
+  @Input() actionStr?: MemberActionEnum;
+  @Input() idToEdit?: number;
   @Input() MemberModel: MemberEntity = new MemberEntity();
-  constructor(private memberService: MemberService, private statsService: StatsService, private notification: NotificationUtility) { }
+
+  constructor(
+    private memberService: MemberService,
+    private statsService: StatsService,
+    private notification: NotificationUtility,
+    private roleService: RoleService) { }
 
   ngOnInit(): void {
+    this.GetRoles();
+    this.GetBattingThrowingSides();
+  }
+  onSubmitMemberModal(): void {
+    let model: any = {};
+    switch (this.actionStr) {
+      case MemberActionEnum.add:
+       // myModal?.modal('hide');
+        model = this.CreateAddModel();
+        if (this.ModelValid(model, true)) {
+          this.memberService.AddMember(model).subscribe({
+            next: (res) => {
+              this.notification.show(NotificationEnum.success, "Acción", "Guardado correctamente.");
+            },
+            error: (err) => {
+              this.notification.show(NotificationEnum.error, "Error", err.error);
+            },
+            complete: () => {
+              this.MemberModel = new MemberEntity();
+              var myModal = document.getElementById('memberModalClose');
+              myModal?.click();
+            }
+          });
+        }
+        break;
+      case MemberActionEnum.edit:
+        model = this.CreateEditModel();
+        console.log("modelo", model)
+        if (this.ModelValid(model)) {
+          this.memberService.UpdateMember(this.idToEdit, model).subscribe({
+            next: (res) => {
+              this.notification.show(NotificationEnum.success, "Acción", "Editado correctamente");
+            },
+            error: (err) => {
+              this.notification.show(NotificationEnum.error, "Error", err.error);
+            },
+            complete: () => {
+            }
+          });
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+  onDdlRoleChange(event: any) {
+    this.MemberModel.roleId = event.target.selectedOptions[0].dataset.id;
+  }
+  onDdlBtSideChange(event: any) {
+    this.MemberModel.btSideId = event.target.selectedOptions[0].dataset.id;
+  }
+  onMyBirthdayChange(event: any){
+    this.MemberModel.birthday = new Date(event.target.value)
+  }
+  //#region Private Methods
+  private GetRoles():void{
+    this.roleService.GetRole().subscribe({
+      next: (res) => {
+        if (!res.error)
+          this.lstRoles = res.model;
+      },
+      error: (err) => { this.notification.show(NotificationEnum.error, "Error", err); },
+      complete: () => { }
+    });
+  }
+  private GetBattingThrowingSides():void{
     this.statsService.GetBattingThrowingSides().subscribe({
       next: (res) => {
         if (!res.error)
@@ -30,26 +110,7 @@ export class MemberModalComponent implements OnInit {
       complete: () => { }
     });
   }
-  onSubmitMemberModal(): void {
-    console.log('FormModel',this.MemberModel);
-    switch (this.actionStr) {
-      case MemberActionEnum.add:
-        let model: any = this.CreateModel();
-        if(this.ModelValid(model)){
-          this.notification.show(NotificationEnum.success, this.actionStr ?? "", "Mensaje full");
-        }
-        console.log("modelo",model)
-        break;
-      case MemberActionEnum.edit:
-
-        this.notification.show(NotificationEnum.success, this.actionStr ?? "", "Mensaje full2");
-        break;
-
-      default:
-        break;
-    }
-  }
-  private CreateModel():any{
+  private CreateAddModel(): any {
     let result: any = {
       member: {
         fullName: this.MemberModel.fullName?.trim() ?? null,
@@ -68,24 +129,59 @@ export class MemberModalComponent implements OnInit {
     };
     return result;
   }
-  private ModelValid(model:any):boolean{
+  private CreateEditModel(): any {
+    let result: any = {
+      member: {
+        memberId: this.MemberModel.memberId ?? null,
+        fullName: this.MemberModel.fullName?.trim() ?? null,
+        nickName: this.MemberModel.nickName?.trim() ?? null,
+        shirtNumber: this.MemberModel.shirtNumber ?? null,
+        btsideId: this.MemberModel.btSideId ?? null,
+        photoUrl: this.MemberModel.photoUrl?.trim() ?? null,
+        birthday: this.MemberModel.birthday ?? null,
+        email: this.MemberModel.email?.trim() ?? null,
+        cellPhoneNumber: this.MemberModel.cellPhoneNumber?.trim() ?? null
+      },
+      user: {
+        userId: this.MemberModel.userId ?? null,
+        userName: this.MemberModel.cellPhoneNumber?.trim() ?? null,
+        roleId: this.MemberModel.roleId ?? null,
+        canEdit: this.MemberModel.canEdit ?? null,
+        isVerified: this.MemberModel.isVerified ?? null,
+        isActive: this.MemberModel.isActive ?? null,
+      }
+    };
+    return result;
+  }
+  private ModelValid(model: any, isNew: boolean = false): boolean {
     let title: string = "Información incorrecta"
-    if(model.member.fullName == null || model.member.fullName == ""){
+    if(!isNew){
+      if (model.user.roleId == null || Number(model.user.roleId) <= 0) {
+        this.notification.show(NotificationEnum.error, title, "No seleccionó rol");
+        return false;
+      }
+    }
+    if (model.member.fullName == null || model.member.fullName == "") {
       this.notification.show(NotificationEnum.error, title, "No contiene nombre completo");
       return false;
     }
-    if(model.member.nickName == null || model.member.nickName == ""){
+    if (model.member.nickName == null || model.member.nickName == "") {
       this.notification.show(NotificationEnum.error, title, "No contiene apodo");
       return false;
     }
-    if(model.member.shirtNumber == null){
+    if (model.member.shirtNumber == null) {
       this.notification.show(NotificationEnum.error, title, "No contiene numero de playera");
       return false;
     }
-    if(model.member.cellPhoneNumber == null || model.member.cellPhoneNumber == ""){
+    if (model.member.cellPhoneNumber == null || model.member.cellPhoneNumber == "") {
       this.notification.show(NotificationEnum.error, title, "No contiene número de celular");
+      return false;
+    }
+    if (model.member.btsideId == null || Number(model.member.btsideId) <= 0) {
+      this.notification.show(NotificationEnum.error, title, "No seleccionó Bateo/Lanzamiento");
       return false;
     }
     return true;
   }
+  //#endregion
 }

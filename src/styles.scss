@@ -13,3 +13,12 @@
 .custom-checkbox-label{
   margin-top: 0.4em;
 }
+.modalKodiaks{
+  color: black !important;
+  input,span,label{
+    color: black !important;
+  }
+  input:disabled{
+    background-color: #D1D1D1 !important;
+  }
+}

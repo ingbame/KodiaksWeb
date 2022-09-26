@@ -1,10 +1,10 @@
 <!-- Modal -->
-<div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
+<div class="modal fade modalKodiaks" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title" id="memberModalLabel">{{actionStr}} miembro</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button id="memberModalClose" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form (ngSubmit)="onSubmitMemberModal()" #form="ngForm" class="row g-3">
@@ -18,8 +18,12 @@
             <input type="text" class="form-control" name="txtMemberId" disabled [(ngModel)]="MemberModel.memberId">
           </div>
           <div class="col-md-6">
-            <label for="txtRoleDesc" class="form-label">Role</label>
-            <input type="text" class="form-control" name="txtRoleDesc" disabled [(ngModel)]="MemberModel.roleDesc">
+            <label for="ddlRoleDesc" class="form-label">Rol</label>
+            <select #ddlRole name="ddlRoleDesc" class="form-select" [(ngModel)]="MemberModel.roleDesc"
+              (change)="onDdlRoleChange($event)">
+              <option selected [attr.data-id]="0">Seleccione</option>
+              <option *ngFor="let item of lstRoles" [attr.data-id]="item.roleId">{{item.roleDescription}}</option>
+            </select>
           </div>
           <div class="col-md-12">
             <label for="txtFullName" class="form-label">Nombre completo</label>
@@ -37,7 +41,7 @@
             <label for="txtBirthday" class="form-label">Cumpleaños</label>
             <input type="date" class="form-control" id="txtBirthday" name="txtBirthday"
               [ngModel]="MemberModel.birthday | date:'yyyy-MM-dd'" #myBirthday
-              [value]="MemberModel.birthday | date:'yyyy-MM-dd'">
+              [value]="MemberModel.birthday | date:'yyyy-MM-dd'" (change)="onMyBirthdayChange($event)">
           </div>
           <div class="col-md-6">
             <label for="txtCellPhoneNumber" class="form-label">Celular</label>
@@ -49,8 +53,9 @@
           </div>
           <div class="col-md-6">
             <label for="bTSideDesc" class="form-label">Bateo/Lanzamiento</label>
-            <select name="bTSideDesc" class="form-select" [(ngModel)]="MemberModel.btSideDesc">
-              <option selected>Seleccione</option>
+            <select #ddlBtSide name="bTSideDesc" class="form-select" [(ngModel)]="MemberModel.btSideDesc"
+              (change)="onDdlBtSideChange($event)">
+              <option selected [attr.data-id]="0">Seleccione</option>
               <option *ngFor="let item of lstBattingThrowingSides" [attr.data-id]="item.btsideId"
                 [attr.data-key-val]="item.keyValue">{{item.btsideDesc}}</option>
             </select>

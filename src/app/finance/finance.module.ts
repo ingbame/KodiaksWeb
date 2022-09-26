@@ -5,6 +5,9 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ConceptsComponent } from './pages/concepts/concepts.component';
 import { RouterModule } from '@angular/router';
 import { FinanceRoutes } from './routes/finance.routing';
+import { NewModalComponent } from './components/movements/new-modal/new-modal.component';
+import { DetailModalComponent } from './components/movements/detail-modal/detail-modal.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -12,10 +15,13 @@ import { FinanceRoutes } from './routes/finance.routing';
   declarations: [
     MovementsComponent,
     DashboardComponent,
-    ConceptsComponent
+    ConceptsComponent,
+    NewModalComponent,
+    DetailModalComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(FinanceRoutes)
   ]
 })

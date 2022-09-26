@@ -11,7 +11,7 @@ export class NotificationUtility {
   show(type: NotificationEnum, title: string, message: any) {
     switch (type) {
       case NotificationEnum.info:
-        this.toastr.info('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span>'+ message, title, {
+        this.toastr.info('<i class="tim-icons icon-bell-55" [data-notify]="icon"></i>'+ message, title, {
           closeButton: true,
           enableHtml: true,
           toastClass: "alert alert-info alert-with-icon",
@@ -19,7 +19,7 @@ export class NotificationUtility {
         });
         break;
       case NotificationEnum.success:
-        this.toastr.success('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span>'+ message, title, {
+        this.toastr.success('<i class="tim-icons icon-bell-55" [data-notify]="icon"></i>'+ message, title, {
           closeButton: true,
           enableHtml: true,
           toastClass: "alert alert-success alert-with-icon",
@@ -27,7 +27,7 @@ export class NotificationUtility {
         });
         break;
       case NotificationEnum.warning:
-        this.toastr.warning('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span>'+ message, title, {
+        this.toastr.warning('<i class="tim-icons icon-bell-55" [data-notify]="icon"></i>'+ message, title, {
           closeButton: true,
           enableHtml: true,
           toastClass: "alert alert-warning alert-with-icon",
@@ -35,7 +35,7 @@ export class NotificationUtility {
         });
         break;
       case NotificationEnum.error:
-        this.toastr.error('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span>'+ message, title, {
+        this.toastr.error('<i class="tim-icons icon-bell-55" [data-notify]="icon"></i>'+ message, title, {
           closeButton: true,
           enableHtml: true,
           toastClass: "alert alert-danger alert-with-icon",
@@ -43,7 +43,7 @@ export class NotificationUtility {
         });
         break;
       case NotificationEnum.show:
-        this.toastr.show('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span>'+ message, title, {
+        this.toastr.show('<i class="tim-icons icon-bell-55" [data-notify]="icon"></i>'+ message, title, {
           closeButton: true,
           enableHtml: true,
           toastClass: "alert alert-primary alert-with-icon",

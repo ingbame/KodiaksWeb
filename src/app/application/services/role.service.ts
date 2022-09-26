@@ -6,11 +6,12 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class LayoutService {
+export class RoleService {
+  urlRole: string = `${environment.kodiaksApi}/Application/Role`;
 
   constructor(private httpCliente: HttpClient) { }
-  GetMenu(): Observable<any> {
-    let url = `${environment.kodiaksApi}/Application/Menu`;
-    return this.httpCliente.get<any>(url, {});
+
+  GetRole(id?: number): Observable<any> {
+    return this.httpCliente.get<any>(id != null ? this.urlRole + "?id=" + id : this.urlRole, {});
   }
 }

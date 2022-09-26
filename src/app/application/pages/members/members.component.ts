@@ -12,6 +12,7 @@ import { MemberService } from '../../services/member.service';
 export class MembersComponent implements OnInit {
   actionStr?: MemberActionEnum;
   lstMembers: MemberEntity[] = [];
+  idToEdit?: number;
   MemberModel: MemberEntity = new MemberEntity();
 
   constructor(private memberService: MemberService) { }
@@ -29,10 +30,12 @@ export class MembersComponent implements OnInit {
   }
   OpenAddMemberModel(): void {
     this.actionStr = MemberActionEnum.add;
+    this.idToEdit = undefined;
     this.MemberModel = new MemberEntity();
   }
   onEditMember(member: MemberEntity): void {
     this.actionStr = MemberActionEnum.edit;
+    this.idToEdit = member.memberId;
     this.MemberModel = JSON.parse(JSON.stringify(member));
   }
 }

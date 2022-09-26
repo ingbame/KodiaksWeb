@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MovementEntity } from '../../models/movement';
 
 @Component({
   selector: 'app-movements',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./movements.component.scss']
 })
 export class MovementsComponent implements OnInit {
+  total: number = 0.00;
+  movements: MovementEntity[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
   }
+  OpenAddMovementModel(): void {
 
+  }
+  onOpenDetailMovement(movement: any): void {
+
+  }
 }
