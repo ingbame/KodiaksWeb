@@ -8,6 +8,7 @@ import { FinanceRoutes } from './routes/finance.routing';
 import { NewModalComponent } from './components/movements/new-modal/new-modal.component';
 import { DetailModalComponent } from './components/movements/detail-modal/detail-modal.component';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -22,6 +23,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
+    NgbModule,
     RouterModule.forChild(FinanceRoutes)
   ]
 })

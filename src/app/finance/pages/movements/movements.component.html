@@ -7,7 +7,9 @@
       <div class=" card-header">
         <div class="row">
           <div class="col col-mb-11">
-            <h1 class=" card-title">Saldo (Fondo): {{total | currency}}</h1>
+            <h1 class=" card-title">
+              Saldo (Fondo): <span [ngClass]="total == 0 ? 'neutral-currency' : total > 0 ? 'positive-currency': 'negative-currency'">{{total | currency}}</span>
+            </h1>
           </div>
           <div class="col col-mb-1 text-right">
             <input class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#movementModal" type="button"
@@ -27,11 +29,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let movement of movements">
-                <td class=" text-center"><a data-bs-toggle="modal" data-bs-target="#detailModal" (click)="onOpenDetailMovement(movement)">{{movement.movementDate | date:'dd/MM/yyyy'}}</a></td>
-                <td>{{movement.movementTypeKey}}</td>
-                <td>{{movement.conceptDesc}}</td>
-                <td class="text-rigth">{{movement.amount}}</td>
+              <tr *ngFor="let movementItem of movements">
+                <td class=" text-center">
+                  <a href="#" class="link-Kodiaks" data-bs-toggle="modal" data-bs-target="#detailModal" (click)="onOpenDetailMovement(movementItem)">
+                    <span ngbTooltip="{{movementItem.fullName}}">
+                      {{movementItem.movementDate | date:'dd/MM/yyyy'}}
+                    </span>
+                  </a>
+                </td>
+                <td><span ngbTooltip="{{movementItem.movementTypeDesc}}">{{movementItem.movementTypeKey}}</span></td>
+                <td>{{movementItem.conceptDesc}}</td>
+                <td class="text-rigth">
+                  <span [ngClass]="movementItem.movementTypeId == 1 ? 'positive-currency': 'negative-currency'">
+                    {{(movementItem.movementTypeId == 2 ? "-" + movementItem.amount : movementItem.amount) | currency}}
+                  </span>
+                </td>
               </tr>
             </tbody>
           </table>
