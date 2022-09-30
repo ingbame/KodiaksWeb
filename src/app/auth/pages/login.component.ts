@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NotificationEnum } from 'src/app/shared/enums/notification-enum';
+import { NotificationUtility } from 'src/app/shared/utilities/notification';
 import { LoginEntity } from '../models/login';
 import { AuthService } from '../services/auth.service';
 
@@ -12,7 +14,7 @@ export class LoginComponent implements OnInit {
   logUsr: LoginEntity = new LoginEntity();
   urlRedirect?: string;
 
-  constructor(private authService: AuthService, private router: Router, private activedRoute: ActivatedRoute) { }
+  constructor(private authService: AuthService, private router: Router, private activedRoute: ActivatedRoute,private notification: NotificationUtility) { }
 
   ngOnInit(): void {
     this.activedRoute.paramMap.subscribe(param => {
@@ -42,7 +44,9 @@ export class LoginComponent implements OnInit {
 
 
           },
-          error: (err) => { },
+          error: (err) => {
+            this.notification.show(NotificationEnum.error, "Error", err.error);
+          },
           complete: () => { }
         });
   }

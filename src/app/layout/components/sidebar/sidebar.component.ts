@@ -4,6 +4,8 @@ import { LayoutService } from "../../services/layout.service";
 
 import jwt_decode from "jwt-decode";
 import { Router, ActivatedRoute } from "@angular/router";
+import { NotificationUtility } from "src/app/shared/utilities/notification";
+import { NotificationEnum } from "src/app/shared/enums/notification-enum";
 
 @Component({
   selector: "app-sidebar",
@@ -14,7 +16,11 @@ export class SidebarComponent implements OnInit {
   urlRedirect?: string;
   menuItems: any[] = [];
 
-  constructor(private layoutService: LayoutService, private router: Router, private activedRoute: ActivatedRoute) { }
+  constructor(
+    private layoutService: LayoutService,
+    private router: Router,
+    private activedRoute: ActivatedRoute,
+    private notification: NotificationUtility) { }
 
   ngOnInit() {
     this.layoutService.GetMenu().subscribe({
@@ -27,7 +33,9 @@ export class SidebarComponent implements OnInit {
           }
         });
       },
-      error: (err) => { console.log('error', err); },
+      error: (err) => {
+        this.notification.show(NotificationEnum.error, "Error", err.error);
+      },
       complete: () => { }
     });
   }

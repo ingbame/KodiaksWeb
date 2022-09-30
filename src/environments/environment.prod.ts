@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  kodiaksApi: "https://kodiaks.somee.com/api"
+  kodiaksApi: "https://kodiaks-softteam.somee.com/api"
 };

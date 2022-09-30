@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NotificationEnum } from 'src/app/shared/enums/notification-enum';
+import { NotificationUtility } from 'src/app/shared/utilities/notification';
 import { MovementEntity } from '../../models/movement';
 import { MovementService } from '../../services/movement.service';
 
@@ -11,16 +13,21 @@ export class MovementsComponent implements OnInit {
   declare bootstrap?: any;
   total: number = 0.00;
   movement: MovementEntity = new MovementEntity();
+  movementEdit: MovementEntity = new MovementEntity();
   movements: MovementEntity[] = [];
 
-  constructor(private movementServices: MovementService) { }
+  constructor(
+    private movementServices: MovementService,
+    private notification: NotificationUtility) { }
 
-  ngOnInit(): void {
+  updateDataEvent: any = () =>{
     this.movementServices.GetTotal().subscribe({
       next: (res) => {
-          this.total = res;
+        this.total = res;
       },
-      error: (err) => { console.log('error', err); },
+      error: (err) => {
+        this.notification.show(NotificationEnum.error, "Error", err.error);
+      },
       complete: () => { }
 
     });
@@ -29,15 +36,20 @@ export class MovementsComponent implements OnInit {
         if (res.length > 0)
           this.movements = res;
       },
-      error: (err) => { console.log('error', err); },
+      error: (err) => {
+        this.notification.show(NotificationEnum.error, "Error", err.error);
+      },
       complete: () => { }
 
     });
+  };
+  ngOnInit(): void {
+    this.updateDataEvent();
   }
   OpenAddMovementModel(): void {
     this.movement = new MovementEntity();
   }
   onOpenDetailMovement(movement: any): void {
-    this.movement = movement;
+    this.movementEdit = JSON.parse(JSON.stringify(movement));
   }
 }

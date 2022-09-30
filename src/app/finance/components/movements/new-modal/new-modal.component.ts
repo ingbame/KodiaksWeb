@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { MemberEntity } from 'src/app/application/models/member';
 import { MemberService } from 'src/app/application/services/member.service';
 import { ConceptEntity } from 'src/app/finance/models/concept';
@@ -11,6 +11,7 @@ import { MovementService } from 'src/app/finance/services/movement.service';
 import { MovementsTypeService } from 'src/app/finance/services/movements-type.service';
 import { NotificationEnum } from 'src/app/shared/enums/notification-enum';
 import { NotificationUtility } from 'src/app/shared/utilities/notification';
+import jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'app-new-modal',
@@ -23,6 +24,7 @@ export class NewModalComponent implements OnInit {
   methods: MethodEntity[] = [];
   members: MemberEntity[] = [];
 
+  @Input() saveEvent?: any;
   @Input() movement: MovementEntity = new MovementEntity();
 
   constructor(
@@ -43,7 +45,6 @@ export class NewModalComponent implements OnInit {
     let model: any = {};
     // myModal?.modal('hide');
     model = this.NewMovementModel();
-    console.log('model', model);
     if (this.ModelValid(model)) {
       this.movementService.post(model).subscribe({
         next: (res) => {
@@ -56,6 +57,7 @@ export class NewModalComponent implements OnInit {
         complete: () => {
           let btnModalClose = document.getElementById("movementModalClose");
           btnModalClose?.click();
+          this.saveEvent();
         }
       });
     }
@@ -75,7 +77,8 @@ export class NewModalComponent implements OnInit {
     this.movement.methodId = event.target.selectedOptions[0].dataset.id;
   }
   onMovementDateChange(event: any): void {
-    this.movement.movementDate = new Date(event.target.valueAsNumber)
+    const [year,month,day] = event.target.value.split('-');
+    this.movement.movementDate = new Date(+year,+month-1,+day);
   }
   private getMovementTypes(): void {
     this.movementsTypeService.Get().subscribe({
@@ -116,16 +119,30 @@ export class NewModalComponent implements OnInit {
     });
   }
   private NewMovementModel(): any {
-    let model = {
-      movementId: this.movement.movementId ?? null,
-      memberId: this.movement.memberId ?? null,
-      movementTypeId: this.movement.movementTypeId ?? null,
-      conceptId: this.movement.conceptId ?? null,
-      methodId: this.movement.methodId ?? null,
-      movementDate: this.movement.movementDate ?? null,
-      amount: this.movement.amount ?? null,
-      additionalComment: this.movement.additionalComment?.trim() ?? null,
-      evidenceUrl: this.movement.evidenceUrl?.trim() ?? null,
+    let model: any = {};
+    if (localStorage.getItem('authUser') && localStorage.getItem('authUser') != '') {
+      let authUser = JSON.parse(localStorage.getItem('authUser')!!);
+      let decoded: any = jwt_decode(authUser.token);
+      const expireDate = (decoded.exp * 1000);
+      if (expireDate < Date.now()) {
+        localStorage.removeItem('authUser');
+        decoded = {};
+      }
+      else
+        decoded.nameidentifier = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+
+      model = {
+        movementId: this.movement.movementId ?? null,
+        memberId: this.movement.memberId ?? null,
+        movementTypeId: this.movement.movementTypeId ?? null,
+        conceptId: this.movement.conceptId ?? null,
+        methodId: this.movement.methodId ?? null,
+        movementDate: this.movement.movementDate ?? null,
+        amount: this.movement.amount ?? null,
+        additionalComment: this.movement.additionalComment?.trim() ?? null,
+        evidenceUrl: this.movement.evidenceUrl?.trim() ?? null,
+        byUser: decoded?.nameidentifier ?? null
+      }
     }
     return model;
   }
@@ -151,8 +168,6 @@ export class NewModalComponent implements OnInit {
       this.notification.show(NotificationEnum.error, title, "La fecha está vacía");
       return false;
     }
-    console.log('movementDate', model.movementDate);
-    console.log('now', Date.now());
 
     if (model.movementDate > Date.now()) {
       this.notification.show(NotificationEnum.error, title, "La fecha es mayor a la actual.");
@@ -160,6 +175,10 @@ export class NewModalComponent implements OnInit {
     }
     if (model.amount == null || Number(model.amount) <= 0) {
       this.notification.show(NotificationEnum.error, title, "No contiene monto a guardar");
+      return false;
+    }
+    if (model.byUser == null) {
+      this.notification.show(NotificationEnum.error, title, "Front: No se puede guardar, si su sesion no está activa.");
       return false;
     }
     return true;

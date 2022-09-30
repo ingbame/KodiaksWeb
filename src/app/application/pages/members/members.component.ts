@@ -1,5 +1,7 @@
 import { Component, OnInit, ɵisListLikeIterable } from '@angular/core';
 import { MemberActionEnum } from 'src/app/shared/enums/member-action-enum';
+import { NotificationEnum } from 'src/app/shared/enums/notification-enum';
+import { NotificationUtility } from 'src/app/shared/utilities/notification';
 import { MemberEntity } from '../../models/member';
 
 import { MemberService } from '../../services/member.service';
@@ -15,18 +17,26 @@ export class MembersComponent implements OnInit {
   idToEdit?: number;
   MemberModel: MemberEntity = new MemberEntity();
 
-  constructor(private memberService: MemberService) { }
+  constructor(
+    private memberService: MemberService,
+    private notification: NotificationUtility) { }
 
-  ngOnInit(): void {
+  updateDataEvent: any = () => {
     this.memberService.GetMember().subscribe({
       next: (res) => {
         if (res.length > 0)
           this.lstMembers = res;
       },
-      error: (err) => { console.log('error', err); },
+      error: (err) => {
+        this.notification.show(NotificationEnum.error, "Error", err.error);
+      },
       complete: () => { }
 
     });
+  };
+
+  ngOnInit(): void {
+    this.updateDataEvent();
   }
   OpenAddMemberModel(): void {
     this.actionStr = MemberActionEnum.add;

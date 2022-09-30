@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+@import './assets/scss/auth/util.scss';
+@import './assets/scss/auth/main.scss';
 
 .custom-checkbox-form{
   font-family: system-ui, sans-serif;
